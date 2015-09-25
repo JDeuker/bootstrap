@@ -27,11 +27,10 @@ angular.module('ui.bootstrap.progressbar', [])
     bar.$watch('value', function(value) {
       bar.recalculatePercentage();
     });
-
+    
     bar.recalculatePercentage = function() {
-      bar.percent = +(100 * bar.value / bar.max).toFixed(2);
-
       var totalPercentage = self.bars.reduce(function(total, bar) {
+             bar.percent = +(100 * bar.value / bar.max).toFixed(2);
         return total + bar.percent;
       }, 0);
 
@@ -48,6 +47,9 @@ angular.module('ui.bootstrap.progressbar', [])
 
   this.removeBar = function(bar) {
       this.bars.splice(this.bars.indexOf(bar), 1);
+      this.bars.forEach(function (bar) {
+         bar.recalculatePercentage();
+      });
   };
 
   $scope.$watch('max', function(max) {
